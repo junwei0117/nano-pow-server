@@ -1,10 +1,9 @@
-// +build cl
-
 package nanopow
 
 import (
-	"github.com/Inkeliz/go-opencl/opencl"
 	"unsafe"
+
+	"github.com/Inkeliz/go-opencl/opencl"
 )
 
 type clBuffer struct {
