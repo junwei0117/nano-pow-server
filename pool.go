@@ -2,7 +2,6 @@ package nanopow
 
 import (
 	"encoding/binary"
-	"runtime"
 	"sync"
 )
 
@@ -85,7 +84,6 @@ func (p *Pool) GenerateWork(root []byte, difficulty uint64) (w Work, err error) 
 	return ctx.Result(), nil
 }
 
-
 func GenerateWork(root []byte, difficulty uint64) (w Work, err error) {
 	defaultWorker := getDefaultWorkerPool()
 	if defaultWorker == nil || defaultWorker.Workers == nil {
@@ -111,20 +109,6 @@ func newDefaultPool() (p *Pool) {
 	gpu, gpuErr := NewWorkerGPU()
 	if gpuErr == nil {
 		p.Workers = append(p.Workers, gpu)
-	}
-
-	threads := runtime.NumCPU()
-	if gpuErr == nil {
-		if threads >= 8 {
-			threads /= 2
-		} else {
-			return p
-		}
-	}
-
-	cpu, cpuErr := NewWorkerCPUThread(uint64(threads))
-	if cpuErr == nil {
-		p.Workers = append(p.Workers, cpu)
 	}
 
 	return p
